@@ -1,0 +1,17 @@
+{
+    "name": "gen/pass",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jhossweb"
+        }
+    ],
+    "require": {
+        "slim/slim": "^4.13",
+        "slim/psr7": "1.6.0"
+    }
+}
