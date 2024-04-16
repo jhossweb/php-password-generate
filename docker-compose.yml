@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: "mysql"
+    container_name: mysqldb
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=phpslim
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  server:
+    build: .
+    container_name: server
+    ports:
+     - "80:80"
+    links:
+      - mysqldb
+    volumes:
+      - ./:/var/www/html
+
+volumes:
+  mysql-data:
+  server-data:
+    driver: local
