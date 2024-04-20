@@ -18,5 +18,10 @@ class AuthRouter extends BaseRouter
             "/register",
             fn($request, $response) => $this->controller->register($request, $response)
         );
+
+        $this->router->post(
+            "/signin",
+            fn($request, $response) => $this->controller->signin($request, $response)
+        );
     }
 }

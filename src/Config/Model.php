@@ -15,7 +15,10 @@ class Model
 
     protected $query;
     protected $connection;
-    
+
+    /** Se agrega esta propiredad para que el editor no marque error */
+    protected $table;
+        
 	function connect() {
 		try {
 
@@ -41,7 +44,7 @@ class Model
             /* substr_count = cuenta cuando ? hay en la consulta */
             $numSignos = substr_count($sql, "?");
 
-            $this->query = $this->connect()->prepare($sql);
+            $this->query = $this->connection->prepare($sql);
             
             foreach($data as $key => $value) {
                 $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
@@ -73,13 +76,13 @@ class Model
     /** Consultas  */
     function all ()
     {
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT * FROM {$this->table}";
         return $this->query($sql)->get();
     }
 
     function findOne (int $id)
     {
-        $sql = "SELECT * FROM users WHERE id = ?";
+        $sql = "SELECT * FROM {$this->table} WHERE id = ?";
         return $this->query($sql, [$id])->first();
     }
 
@@ -89,7 +92,7 @@ class Model
         $colums = implode(", ", $colums);
 
         $values = array_values($data);
-        $sql = "INSERT INTO users ({$colums}) VALUES (" . str_repeat('?, ', count($values) -1) . "?)";
+        $sql = "INSERT INTO {$this->table} ({$colums}) VALUES (" . str_repeat('?, ', count($values) -1) . "?)";
         
         $this->query($sql, $values);
         
@@ -98,10 +101,7 @@ class Model
         return $this->findOne($user_id);
     }
 
-    function passwordHash (string $password) 
-    {
-        return password_hash($password, PASSWORD_DEFAULT);
-    }
+   
 
     function where ($column, $operator, $value = null) 
     {
@@ -110,7 +110,7 @@ class Model
             $operator = "=";
         }
 
-        $sql = "SELECT * FROM users WHERE {$column} {$operator} ?";
+        $sql = "SELECT * FROM {$this->table} WHERE {$column} {$operator} ?";
         $this->query($sql, [$value]);
 
         return $this;
