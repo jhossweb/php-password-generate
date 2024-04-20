@@ -2,9 +2,9 @@
 
 namespace App;
 
+use App\Auth\AuthRouter;
 use App\Password\PasswordRouter;
 use App\Users\UserRouter;
-use JsonBodyParserMiddleware;
 use Slim\Factory\AppFactory;
 
 class AppServer 
@@ -27,5 +27,6 @@ class AppServer
     function router () {
         (new UserRouter($this->app))->router;
         (new PasswordRouter($this->app))->router;
+        (new AuthRouter($this->app))->router;
     }
 }
