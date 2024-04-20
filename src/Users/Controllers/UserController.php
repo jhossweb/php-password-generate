@@ -5,20 +5,23 @@ namespace App\Users\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-use App\Config\Model;
+use App\Users\Repository\UserRepository;
+use Fig\Http\Message\StatusCodeInterface;
 
-
-class UserController extends Model
+class UserController 
 {
-    function index(Request $request, Response $response) {
-        
-        $data = $request->getParsedBody();
-        $this->create($data);
+    function __construct(
+        private UserRepository $userRepository = new UserRepository
+    ){}
 
-        $result = $this->all();
+    function index(Request $request, Response $response) {
+
+        $result = $this->userRepository->all();
         $result = json_encode($result);
 
         $response->getBody()->write($result);
-        return $response->withAddedHeader("Content-Type", "application/json");
+        return $response
+                ->withAddedHeader("Content-Type", "application/json")
+                ->withStatus(StatusCodeInterface::STATUS_OK);
     }
 }

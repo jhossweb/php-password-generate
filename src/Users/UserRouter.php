@@ -3,6 +3,7 @@
 namespace App\Users;
 
 use App\Config\BaseRouter;
+use App\Libs\Middlewares\TokenMiddleware;
 use App\Users\Controllers\UserController;
 
 class UserRouter extends BaseRouter
@@ -14,6 +15,6 @@ class UserRouter extends BaseRouter
 
     function routes()
     {
-        $this->router->get("/", fn($request, $response) => $this->controller->index($request, $response));
+        $this->router->get("/", fn($request, $response) => $this->controller->index($request, $response))->add(new TokenMiddleware);
     }
 }
