@@ -115,4 +115,22 @@ class Model
 
         return $this;
     }
+
+    function delete (int|string $id, int|string $idUserAuth)
+    {
+        $sql = "DELETE FROM {$this->table} WHERE id = ? AND user_id = ?";
+        $this->query($sql, [$id, $idUserAuth]);
+    }
+
+    function innerJoin ($user_id)
+    {
+        $sql = "SELECT p.id, p.platform, p.url_platform, p.pass_gen, u.email
+                FROM {$this->table} AS p
+                INNER JOIN {$this->tableRelations} AS u
+                ON u.id = p.user_id
+                WHERE p.user_id = ?";
+        $this->query($sql, [$user_id]);
+
+        return $this;
+    }
 }

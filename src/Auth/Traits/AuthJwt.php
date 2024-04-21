@@ -17,7 +17,7 @@ trait AuthJwt
                 "id" => $id,
                 "email" => $email
             ],
-            "exp" => strtotime("+30 minutes")
+            "exp" => strtotime("+90 minutes")
         ];
 
         $jwt = JWT::encode($payload, $this->key, "HS256");

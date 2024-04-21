@@ -24,6 +24,7 @@ class TokenMiddleware
         try {
 
             $decoded = JWT::decode($token, new Key($this->key, "HS256"));
+            $request  = $request->withAttribute("id", $decoded->data->id);
             $request  = $request->withAttribute("email", $decoded->data->email);
             
         } catch (\Exception $e) {

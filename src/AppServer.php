@@ -22,6 +22,7 @@ class AppServer
 
     private function middlewares () {
         $this->app->addBodyParsingMiddleware();
+
     }
 
     function router () {

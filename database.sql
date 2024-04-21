@@ -10,6 +10,16 @@ create table users (
 
 CREATE TABLE passwords (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    platform VARCHAR (100) NOT NULL,
+    url_platform VARCHAR(255),
     pass_gen VARCHAR(255),
-    user_id INT
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+-- Relaciones INNER JOIN
+SELECT p.id, p.platform, p.url_platform, p.pass_gen, u.email
+    FROM passwords AS p
+    INNER JOIN users AS u
+    ON u.id = p.user_id
+    WHERE p.user_id = ?
